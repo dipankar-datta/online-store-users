@@ -7,12 +7,18 @@ import com.dipankar.onlinestore.users.util.exception.ExceptionType;
 
 import java.util.Optional;
 
-public class CommonUtil {
+public interface CommonUtil {
 
-    public static <T> T handleOptional(Optional<T> obj) throws ApplicationException {
-        if (obj.isPresent()) {
-            return obj.get();
-        }
-        throw new ApplicationException(ExceptionType.NO_DATA_FOUND);
+    /**
+     * Returns the value contained in the given {@link Optional} if present, otherwise throws an {@link ApplicationException}
+     * with {@link ExceptionType#NO_DATA_FOUND}.
+     *
+     * @param optional the Optional to extract the value from
+     * @param <T> the type of the value
+     * @return the contained value if present
+     * @throws ApplicationException with ExceptionType.NO_DATA_FOUND if the Optional is empty
+     */
+    static <T> T handleOptional(Optional<T> optional) throws ApplicationException {
+        return optional.orElseThrow(() -> new ApplicationException(ExceptionType.NO_DATA_FOUND));
     }
 }
